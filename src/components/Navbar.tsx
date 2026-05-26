@@ -24,7 +24,7 @@ export default function Navbar() {
   }, []);
 
   const linkClass = (isActive: boolean) =>
-    `px-5 py-2.5 rounded-lg text-lg font-semibold tracking-wide transition-all duration-200 cursor-pointer ${
+    `px-4 py-2 rounded-lg text-sm font-medium tracking-wide transition-all duration-200 cursor-pointer ${
       isActive
         ? 'bg-brand-earth text-white shadow-sm'
         : 'text-brand-charcoal hover:text-brand-earth hover:bg-brand-creamdark/50'
@@ -34,18 +34,18 @@ export default function Navbar() {
     <header
       className={`sticky top-0 z-40 transition-all duration-300 w-full ${
         isScrolled
-          ? 'bg-brand-creamlight/95 backdrop-blur-md shadow-md py-3 border-b border-brand-creamdark'
-          : 'bg-brand-creamlight/85 backdrop-blur-sm py-5'
+          ? 'bg-brand-creamlight/95 backdrop-blur-md shadow-md py-2 border-b border-brand-creamdark'
+          : 'bg-brand-creamlight/85 backdrop-blur-sm py-3'
       }`}
-       style={{ scrollBehavior: 'smooth' }}
+      style={{ scrollBehavior: 'smooth' }}
       id="app-header"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between h-16">
         <Link to="/" className="focus:outline-none transition-transform hover:scale-102">
-          <Logo className="h-20 sm:h-24" />
+          <Logo className="h-18 sm:h-20" />
         </Link>
 
-        <nav className="hidden lg:flex items-center gap-1">
+        <nav className="hidden lg:flex items-center gap-2">
           {navItems.map((item) => (
             <NavLink key={item.to} to={item.to} className={({ isActive }) => linkClass(isActive)}>
               {item.label}
@@ -53,58 +53,61 @@ export default function Navbar() {
           ))}
           <Link
             to="/contact"
-            className="ml-4 px-6 py-3 bg-brand-charcoal hover:bg-brand-earth text-brand-creamlight hover:text-brand-charcoal rounded-lg text-base font-bold uppercase tracking-wider transition-all duration-300 shadow-sm border border-brand-earth/20"
+            className="ml-2 px-4 py-2 bg-brand-charcoal hover:bg-brand-earth text-brand-creamlight hover:text-brand-charcoal rounded-lg text-sm font-bold uppercase tracking-wider transition-all duration-300 shadow-sm border border-brand-earth/20"
           >
             Book Site Tour
           </Link>
         </nav>
 
-        <div className="flex items-center lg:hidden">
+        <div className="flex items-center lg:hidden gap-2">
           <a
             href="tel:+919099953232"
-            className="mr-3 p-2 rounded-full bg-brand-creamdark text-brand-charcoal hover:bg-brand-earth hover:text-white transition-colors"
+            className="p-2 rounded-full bg-brand-creamdark text-brand-charcoal hover:bg-brand-earth hover:text-white transition-colors"
             title="Call Us"
           >
-            <Phone className="h-5 w-5" />
+            <Phone className="h-4 w-4" />
           </a>
           <button
             onClick={() => setIsOpen(!isOpen)}
             id="mobile-menu-toggle"
             aria-label="Toggle menu"
-            className="p-2 rounded-lg bg-brand-creamdark text-brand-charcoal hover:text-brand-earth hover:bg-brand-sagelight transition-all cursor-pointer">
-            {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+            className="p-2 rounded-lg bg-brand-creamdark text-brand-charcoal hover:text-brand-earth hover:bg-brand-sagelight transition-all cursor-pointer"
+          >
+            {isOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
           </button>
         </div>
       </div>
 
       {isOpen && (
-        <div className="lg:hidden absolute top-full left-0 w-full bg-brand-creamlight border-b border-brand-creamdark shadow-xl py-4 px-6 flex flex-col gap-3 font-sans" id="mobile-drawer">
-          <p className="text-base font-bold text-brand-earth tracking-widest uppercase mb-2">Main Menu</p>
-          {navItems.map((item) => (
-            <NavLink
-              key={item.to}
-              to={item.to}
-              onClick={() => setIsOpen(false)}
-              className={({ isActive }) =>
-                `w-full text-left px-4 py-4 rounded-xl text-lg font-medium transition-all ${
-                  isActive
-                    ? 'bg-brand-earth text-white font-semibold'
-                    : 'text-brand-charcoal hover:bg-brand-creamdark hover:text-brand-earth'
-                }`
-              }
-            >
-              {item.label}
-            </NavLink>
-          ))}
+        <div className="lg:hidden absolute top-full left-0 w-full bg-brand-creamlight border-b border-brand-creamdark shadow-xl py-3 px-4 flex flex-col gap-2 font-sans" id="mobile-drawer">
+          <p className="text-xs font-bold text-brand-earth tracking-widest uppercase mb-1 pl-2">Main Menu</p>
+          <div className="flex flex-col gap-1">
+            {navItems.map((item) => (
+              <NavLink
+                key={item.to}
+                to={item.to}
+                onClick={() => setIsOpen(false)}
+                className={({ isActive }) =>
+                  `w-full text-left px-4 py-3 rounded-xl text-sm font-medium transition-all ${
+                    isActive
+                      ? 'bg-brand-earth text-white font-semibold'
+                      : 'text-brand-charcoal hover:bg-brand-creamdark hover:text-brand-earth'
+                  }`
+                }
+              >
+                {item.label}
+              </NavLink>
+            ))}
+          </div>
           <div className="pt-3 border-t border-brand-creamdark/55 mt-1 flex flex-col gap-3">
             <Link
               to="/contact"
               onClick={() => setIsOpen(false)}
-              className="w-full text-center py-4 bg-brand-charcoal text-brand-creamlight rounded-xl font-bold text-base tracking-wide hover:bg-brand-earth hover:text-brand-charcoal transition-all shadow"
+              className="w-full text-center py-3 bg-brand-charcoal text-brand-creamlight rounded-xl font-bold text-sm tracking-wide hover:bg-brand-earth hover:text-brand-charcoal transition-all shadow"
             >
               Schedule Free Site Visit
             </Link>
-            <div className="flex justify-around text-center text-sm text-stone-500 font-mono mt-2">
+            <div className="flex justify-center text-center text-xs text-stone-500 font-mono mt-1">
               <span>RERA No: AG/GJ/AHMD/2026/020</span>
             </div>
           </div>
