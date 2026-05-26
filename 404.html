@@ -1,0 +1,20 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Page Not Found | The Real Estates</title>
+    <script>
+      const path = window.location.pathname + window.location.search + window.location.hash;
+      window.location.replace('/#' + encodeURIComponent(path));
+    </script>
+    <style>body{margin:0;font-family:sans-serif;background:#083E6E;color:#fff;display:flex;align-items:center;justify-content:center;height:100vh;text-align:center;padding:24px;}a{color:#D4A373;text-decoration:none;font-weight:700;}</style>
+  </head>
+  <body>
+    <div>
+      <h1>Page unavailable</h1>
+      <p>If you landed here after a refresh, click the link below to return to the home experience.</p>
+      <p><a href="/">Return to homepage</a></p>
+    </div>
+  </body>
+</html>

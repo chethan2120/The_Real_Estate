@@ -1,0 +1,6 @@
+{
+  "name": "The Real Estates",
+  "description": "Premium real estate consultancy in Ahmedabad and GIFT City offering premier residential, commercial, and investment advisory.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
