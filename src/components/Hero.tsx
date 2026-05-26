@@ -1,6 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { CheckCircle2, Play, Pause, Tv } from 'lucide-react';
+import { CheckCircle2, Play, X, Sparkles, Volume2, ShieldCheck } from 'lucide-react';
 
+interface HeroProps {
+  onSearch: (filters: { location: string; type: string }) => void;
+}
 
 // Highly reliable, pre-vetted video backup tracks matching regional projects
 const BACKDROP_VIDEOS = [
@@ -22,11 +25,20 @@ const BACKDROP_VIDEOS = [
   }
 ];
 
-export default function Hero() {
+export default function Hero({ onSearch }: HeroProps) {
+  const [selectedLocation, setSelectedLocation] = useState('');
+  const [selectedType, setSelectedType] = useState('');
+  
   // Interactive background states
   const [activeBackdrop, setActiveBackdrop] = useState(0);
   const [isPlaying, setIsPlaying] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Site Tour walkthrough modal states
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalVideoIndex, setModalVideoIndex] = useState(0);
+  const [isModalVideoMuted, setIsModalVideoMuted] = useState(true);
+  const modalVideoRef = useRef<HTMLVideoElement>(null);
 
   // Force autoPlay triggers on backend loop swaps
   useEffect(() => {
@@ -39,16 +51,6 @@ export default function Hero() {
       }
     }
   }, [activeBackdrop]);
-
-  const togglePlayback = () => {
-    if (!videoRef.current) return;
-    if (isPlaying) {
-      videoRef.current.pause();
-    } else {
-      videoRef.current.play().catch((err) => console.log('Playback error:', err));
-    }
-    setIsPlaying(!isPlaying);
-  };
 
   const handleModalVideoChange = (idx: number) => {
     setModalVideoIndex(idx);
@@ -78,7 +80,6 @@ export default function Hero() {
           playsInline
           className="w-full h-full object-cover scale-102 filter brightness-[80%] contrast-[105%] transition-all duration-1000 ease-in-out"
           poster={BACKDROP_VIDEOS[activeBackdrop].poster}
-          referrerPolicy="no-referrer"
           id="hero-backdrop-video"
         >
           <source
@@ -99,7 +100,7 @@ export default function Hero() {
           <span className="drop-shadow-sm">Authorized GIFT City & Vaishnodevi Property Advisors</span>
         </div>
 
-        {/* Display Typography Header with drop shadow */}
+        {/* Display Typography Header with drop shadow - REMOVED UNDERLINE FROM INTEGRITY */}
         <h1 className="text-4xl sm:text-5xl lg:text-7xl font-display font-bold tracking-tight max-w-4xl leading-none text-brand-creamlight drop-shadow-[0_4px_16px_rgba(0,0,0,0.85)]">
           Where <span className="text-brand-earth">Integrity</span> Meets Premium Architecture
         </h1>
@@ -111,26 +112,8 @@ export default function Hero() {
           </p>
         </div>
 
-        {/* 3. VIDEO ENGINE CONTROL INTERACTIVE CHIPS */}
-        <div className="mt-6 flex flex-wrap gap-2.5 justify-center items-center">
-          <button
-            onClick={() => setActiveBackdrop((prev) => (prev + 1) % BACKDROP_VIDEOS.length)}
-            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full bg-brand-charcoal/70 hover:bg-brand-charcoal text-brand-creamlight font-medium text-xs transition-all border border-brand-creamdark/20 hover:scale-105 active:scale-95 cursor-pointer"
-            title="Change backdrop source"
-          >
-            <Tv className="h-3.5 w-3.5 text-brand-earth" />
-            <span>Set Loop Backdrop: <strong>{BACKDROP_VIDEOS[activeBackdrop].label.split(' ')[1]}</strong></span>
-          </button>
-
-          <button
-            onClick={togglePlayback}
-            className="p-2.5 rounded-full bg-brand-charcoal/70 hover:bg-brand-charcoal text-brand-creamlight transition-all border border-brand-creamdark/20 cursor-pointer"
-            aria-label={isPlaying ? "Pause background" : "Play background"}
-          >
-            {isPlaying ? <Pause className="h-3.5 w-3.5 text-brand-sagelight" /> : <Play className="h-3.5 w-3.5 text-brand-earth" />}
-          </button>
-        </div>
-
+        {/* 3. VIDEO ENGINE CONTROL - REMOVED Interactive Space Tour, Set Loop Backdrop, and Play/Pause buttons */}
+       
         {/* Mini statistics modules in sleek dashboard design */}
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 mt-8 w-full max-w-3xl">
           <div className="bg-brand-charcoal/60 backdrop-blur-md p-4 rounded-xl border border-brand-creamdark/10 flex flex-col items-center shadow-lg">
@@ -151,12 +134,126 @@ export default function Hero() {
           </div>
         </div>
 
-        <p className="mt-4 text-[10px] font-mono text-brand-creamdark/50">
-          *RERA consult licensing authorized: PR/GJ/GANDHINAGAR/GANDHINAGAR/Others/CAA11099/2026/G1
-        </p>
+        {/* 4. REAL-ESTATE FILTER PORTAL CONSOLE - REMOVED COMPLETELY */}
+        {/* Search form, Location Corridor, Property Portfolio Type, Search Estates, RERA text all removed */}
+
       </div>
+
+      {/* 5. IMMERSIVE WALKTHROUGH SITE TOUR MODAL WINDOW */}
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-brand-charcoal/95 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6" id="site-tour-modal">
+          <div className="bg-white rounded-3xl border-2 border-brand-earth max-w-4xl w-full overflow-hidden shadow-2xl animate-float relative flex flex-col md:flex-row">
+            
+            {/* Close modal button top right */}
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="absolute top-4 right-4 z-50 p-2 bg-brand-charcoal text-brand-creamlight rounded-full hover:bg-brand-earth hover:text-brand-charcoal transition-all shadow cursor-pointer focus:outline-none"
+              title="Close Player"
+            >
+              <X className="h-5 w-5" />
+            </button>
+
+            {/* Video Player Segment */}
+            <div className="flex-[3] bg-brand-charcoal relative flex items-center justify-center min-h-[220px] sm:min-h-[380px]">
+              <video
+                ref={modalVideoRef}
+                autoPlay
+                controls
+                muted={isModalVideoMuted}
+                playsInline
+                className="w-full h-full object-contain"
+                poster={BACKDROP_VIDEOS[modalVideoIndex].poster}
+                id="modal-walkthrough-player"
+              >
+                <source src={BACKDROP_VIDEOS[modalVideoIndex].url} type="video/mp4" />
+                Browser lacks streaming video support.
+              </video>
+
+              {/* Sound/Mute prompt banner */}
+              {isModalVideoMuted && (
+                <button
+                  onClick={() => setIsModalVideoMuted(false)}
+                  className="absolute bottom-4 left-4 bg-brand-charcoal/80 text-brand-creamlight py-1 px-3 rounded-full text-[10px] font-mono flex items-center gap-1.5 hover:bg-brand-earth hover:text-brand-charcoal transition-all animate-pulse shadow-md cursor-pointer"
+                >
+                  <Volume2 className="h-3 w-3" /> Unmute Immersive Sound
+                </button>
+              )}
+            </div>
+
+            {/* Tour Controls and Guide Sidebar */}
+            <div className="flex-[2] p-6 flex flex-col justify-between bg-brand-creamlight text-brand-charcoal">
+              <div>
+                <div className="flex items-center gap-1 text-[10px] font-mono tracking-widest text-brand-earth uppercase font-bold mb-2">
+                  <Sparkles className="h-3.5 w-3.5" /> High Definition Site-Tour
+                </div>
+                
+                <h3 className="text-xl font-display font-bold leading-tight text-brand-charcoal">
+                  {BACKDROP_VIDEOS[modalVideoIndex].title}
+                </h3>
+                
+                <p className="mt-3 text-xs leading-relaxed text-stone-600 font-sans">
+                  {BACKDROP_VIDEOS[modalVideoIndex].desc}
+                </p>
+
+                {/* Direct site specifications checklist */}
+                <div className="mt-4 p-3 bg-white border border-brand-creamdark rounded-xl flex flex-col gap-1.5">
+                  <div className="text-[10px] text-brand-charcoal/60 font-mono flex items-center gap-1">
+                    <ShieldCheck className="h-3.5 w-3.5 text-brand-earth" /> Clear Title Pre-Approved Bank Waivers
+                  </div>
+                  <div className="text-[10px] text-stone-600 font-sans pl-4.5">
+                    • 100% compliant RERA filings
+                  </div>
+                  <div className="text-[10px] text-stone-600 font-sans pl-4.5">
+                    • High-speed fiber network infrastructure
+                  </div>
+                </div>
+
+                {/* Scene switches */}
+                <p className="text-[10px] uppercase font-mono font-bold tracking-wider text-stone-400 mt-6 mb-2">
+                  Select Walkthrough Stream
+                </p>
+
+                <div className="flex flex-col gap-2">
+                  {BACKDROP_VIDEOS.map((item, idx) => (
+                    <button
+                      key={item.id}
+                      onClick={() => handleModalVideoChange(idx)}
+                      className={`w-full text-left p-2.5 rounded-xl text-xs font-medium font-sans flex items-center justify-between border transition-all cursor-pointer ${
+                        modalVideoIndex === idx
+                          ? 'bg-brand-charcoal text-brand-creamlight border-brand-charcoal shadow-md'
+                          : 'bg-white text-stone-700 border-brand-creamdark hover:bg-brand-creamdark/30'
+                      }`}
+                    >
+                      <span>{item.label}</span>
+                      <Play className="h-3 w-3 fill-current shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div className="pt-4 border-t border-brand-creamdark flex items-center justify-between">
+                <span className="text-[10px] text-gray-400 font-mono">Stream: Pure MP4 HD</span>
+                <button
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    // Scroll to properties view
+                    const contactSection = document.getElementById('contact');
+                    if (contactSection) {
+                      contactSection.scrollIntoView({ behavior: 'smooth' });
+                    }
+                  }}
+                  className="text-xs font-bold text-brand-earth hover:underline cursor-pointer"
+                >
+                  Book site tour now →
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      )}
 
     </section>
   );
 }
-

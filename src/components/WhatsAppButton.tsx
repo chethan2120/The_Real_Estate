@@ -1,115 +1,19 @@
-import React, { useState } from 'react';
-import { MessageSquare, Send, X, ShieldAlert, Sparkles } from 'lucide-react';
+import React from 'react';
 
 export default function WhatsAppButton() {
-  const [showPopup, setShowPopup] = useState(false);
-  const [customMsg, setCustomMsg] = useState('');
-
   const companyPhone = '919099953232';
 
-  const defaultMessages = [
-    { label: 'Apartment Inquiry', text: 'Hello, I want to schedule a site tour. ' },
-   
-  ];
-
-  const handleOpenWhatsApp = (messageText: string) => {
-    const encodedText = encodeURIComponent(messageText);
-    const link = `https://wa.me/${companyPhone}?text=${encodedText}`;
+  const handleOpenWhatsApp = () => {
+    const link = `https://wa.me/${companyPhone}`;
     window.open(link, '_blank', 'noopener,noreferrer');
-    setShowPopup(false);
-  };
-
-  const handleSubmitCustom = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!customMsg.trim()) return;
-    handleOpenWhatsApp(customMsg);
-    setCustomMsg('');
   };
 
   return (
     <div className="fixed bottom-6 right-6 z-50 flex flex-col items-end gap-3 font-sans" id="whatsapp-widget">
       
-      {/* WhatsApp Floating Chat Box Dialog */}
-      {showPopup && (
-        <div className="bg-white max-w-md w-[92vw] sm:w-[420px] rounded-3xl overflow-hidden border border-brand-creamdark shadow-2xl animate-float">
-          {/* Header background with company style */}
-          <div className="bg-brand-charcoal text-brand-creamlight p-5 flex items-center justify-between border-b border-brand-earth/30">
-            <div className="flex items-center gap-3">
-              <div className="relative">
-                <div className="h-12 w-12 rounded-full bg-brand-earth flex items-center justify-center font-bold font-display text-brand-charcoal overflow-hidden border-2 border-brand-creamdark">
-                  RE
-                </div>
-                {/* Online Indicator Dot */}
-                <div className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white animate-pulse" />
-              </div>
-              <div>
-                <h4 className="text-base font-semibold leading-tight font-display text-brand-creamlight">The Real Estates Desk</h4>
-                <p className="text-xs text-brand-sagedark font-mono flex items-center gap-0.5">
-                  <Sparkles className="h-2.5 w-2.5 text-brand-earth" /> Property Channel Advisors
-                </p>
-              </div>
-            </div>
-            
-            <button
-              onClick={() => setShowPopup(false)}
-              className="text-brand-creamdark/50 hover:text-white transition-colors p-1 rounded-full hover:bg-white/10 cursor-pointer"
-            >
-              <X className="h-4.5 w-4.5" />
-            </button>
-          </div>
-
-          {/* Quick Body info */}
-          <div className="p-4 bg-brand-creamlight/30 max-h-[350px] overflow-y-auto flex flex-col gap-3">
-            <div className="bg-white p-4 rounded-2xl border border-brand-creamdark text-sm text-stone-600 leading-relaxed font-sans shadow-sm">
-              🔑 Welcome! This is the pre-vetted Property Portal Desk of <strong>The Real Estates</strong>. Ask us about AUDA maps, developer inventories, RERA listings, and EMI quotes below!
-            </div>
-
-            <p className="text-sm uppercase font-mono font-bold tracking-widest text-stone-400 pl-1">
-              Popular Advisor Questions
-            </p>
-
-            {/* Quick pre-compiled buttons */}
-            <div className="flex flex-col gap-2">
-              {defaultMessages.map((item, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => handleOpenWhatsApp(item.text)}
-                  className="w-full text-left p-3 bg-white border border-brand-creamdark/95 hover:border-brand-earth/50 rounded-xl text-sm text-stone-700 hover:text-brand-earth font-sans leading-relaxed transition-all shadow-sm focus:outline-none cursor-pointer text-ellipsis overflow-hidden"
-                >
-                  {item.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {/* Custom chat footer */}
-          <form onSubmit={handleSubmitCustom} className="p-3 bg-white border-t border-brand-creamlight flex gap-2">
-            <input
-              type="text"
-              required
-              placeholder="Type your message..."
-              value={customMsg}
-              onChange={(e) => setCustomMsg(e.target.value)}
-              className="flex-1 px-4 py-3 border border-brand-creamdark/95 bg-brand-creamlight/30 text-sm rounded-xl focus:outline-none focus:ring-1 focus:ring-brand-earth text-brand-charcoal font-sans"
-            />
-            <button
-              type="submit"
-              className="p-3 bg-brand-charcoal hover:bg-brand-earth text-brand-creamlight hover:text-brand-charcoal rounded-xl transition-all cursor-pointer shadow flex items-center justify-center shrink-0"
-              title="Send to WhatsApp"
-            >
-              <Send className="h-5 w-5" />
-            </button>
-          </form>
-          
-          <div className="bg-brand-creamlight py-2 text-center text-[9px] text-gray-400 border-t border-brand-creamdark/45 font-mono">
-            Direct secure WhatsApp Connection
-          </div>
-        </div>
-      )}
-
-      {/* Main floating circle trigger button */}
+      {/* Main floating circle trigger button - opens WhatsApp directly */}
       <button
-        onClick={() => setShowPopup(!showPopup)}
+        onClick={handleOpenWhatsApp}
         className="h-14 w-14 rounded-full bg-[#25D366] hover:bg-[#128C7E] text-white flex items-center justify-center shadow-2xl hover:scale-105 active:scale-95 transition-all cursor-pointer relative group border-2 border-white"
         id="whatsapp-floating-trigger"
         aria-label="Contact us on WhatsApp"
@@ -117,14 +21,20 @@ export default function WhatsAppButton() {
         {/* Radar pulsing background - authentic brand green */}
         <div className="absolute inset-0 rounded-full bg-[#25D366]/35 group-hover:bg-[#128C7E]/20 animate-ping -z-10" />
         
-        {/* WhatsApp Official SVG Symbol inside white fill */}
+        {/* Original WhatsApp Logo - Green circle with white phone */}
         <svg
           viewBox="0 0 24 24"
-          className="h-7 w-7 transition-transform duration-300 group-hover:scale-110"
-          xmlns="http://www.w3.org/2000/svg">
+          className="h-8 w-8 transition-transform duration-300 group-hover:scale-110"
+          xmlns="http://www.w3.org/2000/svg"
+        >
           <path
             fill="#ffffff"
-            d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.362 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.574 2.81.7A2 2 0 0122 16.92z"/>
+            d="M12.031 2C6.502 2 2 6.478 2 11.979c0 2.09.67 4.041 1.796 5.642L2 24l6.455-1.788a9.963 9.963 0 003.576.677c5.528 0 10.03-4.479 10.03-9.98C22.061 6.478 17.56 2 12.031 2zm0 18.364c-1.394 0-2.754-.372-3.92-1.051l-.281-.168-3.898 1.078.929-3.72-.184-.305A7.67 7.67 0 014.444 11.98c0-4.266 3.476-7.738 7.75-7.738 4.273 0 7.747 3.472 7.747 7.738 0 4.265-3.474 7.736-7.747 7.736l-3.163.072z"
+          />
+          <path
+            fill="#ffffff"
+            d="M16.806 13.84c-.266-.133-1.572-.788-1.815-.877-.243-.09-.421-.133-.598.133-.177.266-.685.877-.84 1.057-.155.18-.31.18-.576.047-.266-.133-1.123-.414-2.138-1.32a8.015 8.015 0 01-1.48-1.841c-.156-.242-.016-.375.117-.495.119-.104.263-.271.394-.407.131-.136.175-.227.262-.374.087-.147.043-.276-.022-.383a63.62 63.62 0 00-.559-1.17c-.146-.39-.301-.33-.412-.33h-.368a.708.708 0 00-.513.24c-.181.18-.69.674-.69 1.644 0 .97.706 1.91.806 2.041.1.132 1.395 2.124 3.379 2.979.472.203.841.324 1.129.415.475.152.907.13 1.249.088.381-.045 1.172-.474 1.337-.935.165-.46.165-.856.115-.94z"
+          />
         </svg>
         
         {/* Dynamic bubble alert indicator */}

@@ -9,7 +9,9 @@ import ContactUs from '../components/ContactUs';
 export default function HomePage() {
   return (
     <main className="flex-1">
-      <Hero />
+      <Hero onSearch={function (filters: { location: string; type: string; }): void {
+              throw new Error('Function not implemented.');
+          } } />
       <PropertyGallery filters={{ location: '', type: '' }} />
       <AboutUs />
       <Services />

@@ -93,16 +93,17 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row justify-between items-center text-[10px] font-mono text-brand-creamdark/30 gap-3">
         <p>© 2026 The Real Estates Consultancy Private Limited. All rights reserved.</p>
         <div className="flex gap-4">
-         <p className="text-xs sm:text-sm text-brand-creamdark/75 leading-snug max-w-xl">
-            Designed and Maintained by{' '}
-            <a
-              href="https://webnxt.co/"
-              target="_blank"
-              rel="noreferrer"
-              className="text-brand-earth font-semibold hover:text-brand-creamlight">
-              WebNxt
-            </a>
-          </p>
+         <p className="text-xs sm:text-sm text-brand-creamdark/75 leading-snug max-w-xl text-center mx-auto" style={{ marginLeft: '-725px' }}>
+  Designed and Maintained by{' '}
+  <a
+    href="https://webnxt.co/"
+    target="_blank"
+    rel="noreferrer"
+    className="text-brand-earth font-semibold hover:text-brand-creamlight"
+  >
+    WebNxt
+  </a>
+</p>
           <span className="hover:text-brand-earth transition-colors">Terms of Representation</span>
           <span>|</span>
           <span className="hover:text-brand-earth transition-colors">Privacy Covenant</span>
